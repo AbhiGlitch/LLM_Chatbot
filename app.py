@@ -21,6 +21,10 @@ while True:
     if question.lower() == "exit":
         print("Chatbot: Bye!")
         break
+    if question.lower() == "clear":
+       chat_history.clear()
+       print("Chatbot: Conversation cleared!")
+       continue
 
     chat_history.append({
         "role": "user",
