@@ -25,10 +25,12 @@ while True:
     })
 
     response = client.models.generate_content(
-        model="gemini-3.8-flash",
-        contents=chat_history
-    )
-
+      model="gemini-3.8-flash",
+      contents=chat_history,
+      config={
+        "system_instruction": "Answer follow-up questions using the conversation history. If the user says 'it', identify what they referred to earlier."
+    }
+)
     print("AI:", response.text)
 
     chat_history.append({
