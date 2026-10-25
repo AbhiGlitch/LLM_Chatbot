@@ -14,6 +14,9 @@ chat_history = []
 
 while True:
     question = input("You: ")
+    if not question.strip():
+        print("Please enter a question.")
+        continue
 
     if question.lower() == "exit":
         print("Chatbot: Bye!")
@@ -24,16 +27,21 @@ while True:
         "parts": [{"text": question}]
     })
 
-    response = client.models.generate_content(
-      model="gemini-3.8-flash",
-      contents=chat_history,
-      config={
-        "system_instruction": "Answer follow-up questions using the conversation history. If the user says 'it', identify what they referred to earlier."
-    }
-)
-    print("AI:", response.text)
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=chat_history,
+            config={
+                "system_instruction": "Answer follow-up questions using the conversation history."
+            }
+        )
 
-    chat_history.append({
-        "role": "model",
-        "parts": [{"text": response.text}]
-    })
+        print("AI:", response.text)
+
+        chat_history.append({
+            "role": "model",
+            "parts": [{"text": response.text}]
+        })
+
+    except Exception as e:
+        print("Sorry, something went wrong. Please try again.")
